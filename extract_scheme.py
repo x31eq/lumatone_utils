@@ -12,6 +12,8 @@ parser = argparse.ArgumentParser(
         description='Extract color scheme from a Lumatone .ltn mapping')
 parser.add_argument('-p', '--period', type=int, nargs='?', default=128,
                     help='number of steps to a period/octave')
+parser.add_argument('-t', '--tonic', type=int, nargs='?', default=0,
+                    help='MIDI reference pitch')
 parser.add_argument('-o', '--output', nargs='?',
                     help='file to write the scheme to')
 parser.add_argument('input_filename')
@@ -26,7 +28,7 @@ with open(args.input_filename) as ltn:
     for line in ltn:
         if line.startswith('Key_') and line.count('=') == 1:
             key, pitch = line[4:].strip().split('=')
-            pitches[int(key)] = int(pitch) % args.period
+            pitches[int(key)] = (int(pitch) - args.tonic) % args.period
         elif line.startswith('Col_') and line.count('=') == 1:
             key, color = line[4:].strip().split('=')
             colors[int(key)] = color
