@@ -21,8 +21,8 @@ args = parser.parse_args()
 
 input_filename = args.input_filename
 
-pitches = [0] * 56
-colors = ['000000'] * 56
+pitches = [0] * KEYS_PER_SECTION
+colors = ['000000'] * KEYS_PER_SECTION
 
 with open(args.input_filename) as ltn:
     for line in ltn:
