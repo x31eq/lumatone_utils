@@ -40,7 +40,7 @@ for pitch, color in zip(pitches, colors):
 if args.output:
     with open(args.output, 'w') as result:
         for pitch, color in enumerate(scheme):
-            result.write("{}={}\n".format(pitch, color))
+            result.write("{}\n".format(color))
 else:
     for pitch, color in enumerate(scheme):
-        sys.stdout.write("{}={}\n".format(pitch, color))
+        sys.stdout.write("{}\n".format(color))
