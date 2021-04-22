@@ -9,7 +9,7 @@ import argparse, sys
 KEYS_PER_SECTION = 56
 
 parser = argparse.ArgumentParser(
-        description='Extract color scheme from a Lumatone .ltn mapping')
+        description='Extract the color scheme from a Lumatone .ltn mapping')
 parser.add_argument('-p', '--period', type=int, nargs='?', default=128,
                     help='number of steps to a period/octave')
 parser.add_argument('-t', '--tonic', type=int, nargs='?', default=0,
@@ -18,8 +18,6 @@ parser.add_argument('-o', '--output', nargs='?',
                     help='file to write the scheme to')
 parser.add_argument('input_filename')
 args = parser.parse_args()
-
-input_filename = args.input_filename
 
 pitches = [0] * KEYS_PER_SECTION
 colors = ['000000'] * KEYS_PER_SECTION
