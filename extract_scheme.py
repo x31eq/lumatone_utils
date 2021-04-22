@@ -31,7 +31,8 @@ with open(args.input_filename) as ltn:
             pitches[int(key)] = (int(pitch) - args.tonic) % args.period
         elif line.startswith('Col_') and line.count('=') == 1:
             key, color = line[4:].strip().split('=')
-            colors[int(key)] = color
+            if color != '000000':
+                colors[int(key)] = color
 
 scheme = ['000000'] * args.period
 for pitch, color in zip(pitches, colors):
