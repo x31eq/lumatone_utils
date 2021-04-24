@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-import sys
+import sys, os
 
 for filename in sys.argv[1:]:
     with open(filename) as input_file:
-        output_filename = filename.replace('.ltn', '_dim.ltn')
+        folder, basename = os.path.split(filename)
+        output_filename = os.path.join(folder, 'dim_' + basename)
         with open(output_filename, 'w', newline=('\r\n')) as output_file:
             for line in input_file:
                 if line.startswith('Col_'):
