@@ -62,7 +62,7 @@ for line in lines:
     if line.startswith('Col_') and line.count('=') == 1:
         key, _color = line[4:].strip().split('=')
         key = int(key)
-        channel = channels[board][key]
+        channel = channels[board][key] - 1
         pitch = pitches[board][key] + (channel * args.gap)
         color = scheme[(pitch - args.tonic) % period]
         line = "Col_{}={}".format(key, color)

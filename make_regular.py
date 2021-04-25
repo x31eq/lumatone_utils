@@ -27,6 +27,8 @@ parser.add_argument('-l', '--limma', type=int, nargs='?', default=0,
                     help='Number of steps to a bosanquet limma (diatonic semitone)')
 parser.add_argument('-g', '--gap', type=int, nargs='?',
                     help='Notes to offset from one channel to the next')
+parser.add_argument('-c', '--channels', type=int, nargs='*',
+                    help='Channel to assign to each section')
 parser.add_argument('-o', '--output', nargs='?',
                     help='file to write the generated mapping to')
 args = parser.parse_args()
@@ -45,6 +47,7 @@ for tone, limma, length in ROWS:
 tone_gap, limma_gap = BOARD_GAP
 note_gap = tone_gap * args.tone + limma_gap * args.limma
 channel_gap = args.gap or note_gap
+channels = ((args.channels or []) + [1] * 5)[:5]
 note_offset = -8
 output = open(args.output, 'w') if args.output else sys.stdout
 for board in range(5):
@@ -52,10 +55,14 @@ for board in range(5):
     tone_gap, limma_gap = BOARD_GAP
     initial = note_offset + board * note_gap
     for key, (tone, limma) in enumerate(coords_of_key):
-        note = initial + tone * args.tone + limma * args.limma
-        channel = 1
+        channel = channels[board]
+        octave = (channel - 1) * channel_gap
+        note = initial + tone * args.tone + limma * args.limma - octave
+        while note < 0:
+            note += channel_gap
+            channel -= 1
         while note > 0x7f:
-            note -= args.gap
+            note -= channel_gap
             channel += 1
         output.write("Key_{}={}\n".format(key, note))
         output.write("Chan_{}={}\n".format(key, channel))
