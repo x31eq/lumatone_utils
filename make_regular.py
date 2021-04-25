@@ -14,6 +14,9 @@ ROWS = [
         (3, 10, 2),
         ]
 
+# A diatonic scale takes you to the same note on the next board!
+BOARD_GAP = 5, 2
+
 coords_of_key = []
 key_at = {}
 key = 0
@@ -26,10 +29,12 @@ for tone, limma, length in ROWS:
 
 tone_steps = 3
 limma_steps = 2
-initial = 8
-
+tone_gap, limma_gap = BOARD_GAP
+note_gap = tone_gap * tone_steps + limma_gap * limma_steps
 for board in range(5):
     print("[Board{}]".format(board))
+    tone_gap, limma_gap = BOARD_GAP
+    initial = 8 + board * note_gap
     for key, (tone, limma) in enumerate(coords_of_key):
         note = initial + tone * tone_steps + limma * limma_steps
         print("Key_{}={}".format(key, note))
