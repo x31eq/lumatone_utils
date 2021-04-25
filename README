@@ -1,0 +1,17 @@
+Utilities for dealing with Lumatone files
+-----------------------------------------
+
+These are work in progress, and have some --help documentation.
+
+Example: making a magic mapping for 19 steps to an octave
+covering what would be a perfect fourth in a Bosanquet mapping:
+
+Take the color scheme from an existing mapping file and make
+a new magic mapping using it with 19 steps to an octave
+covering what would be a perfect fourth in a Bosanquet mapping:
+
+./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
+    ./apply_scheme.py -t 60 --input ./tricolour.scheme --gap 19 <(
+    ./make_regular.py -t 6 -l 1 -g 19 --channels 1 1 1 5 5
+    ) -o mappings/tricolour_g.ltn
+
