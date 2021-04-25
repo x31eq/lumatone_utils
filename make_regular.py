@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import argparse, sys
+
 ROWS = [
         (4, 0, 2),
         (4, 1, 5),
@@ -17,6 +19,17 @@ ROWS = [
 # A diatonic scale takes you to the same note on the next board!
 BOARD_GAP = 5, 2
 
+parser = argparse.ArgumentParser(
+        description='Generate a Lumatone mapping with a regular layout')
+parser.add_argument('-t', '--tone', type=int, nargs='?', default=2,
+                    help='Number of steps to a bosanquet whole tone')
+parser.add_argument('-l', '--limma', type=int, nargs='?', default=0,
+                    help='Number of steps to a bosanquet limma (diatonic semitone)')
+parser.add_argument('-o', '--output', nargs='?',
+                    help='file to write the generated mapping to')
+args = parser.parse_args()
+
+
 coords_of_key = []
 key_at = {}
 key = 0
@@ -27,16 +40,14 @@ for tone, limma, length in ROWS:
         key_at[tone + i, limma] = key + i
     key += length
 
-tone_steps = 3
-limma_steps = 2
 tone_gap, limma_gap = BOARD_GAP
-note_gap = tone_gap * tone_steps + limma_gap * limma_steps
+note_gap = tone_gap * args.tone + limma_gap * args.limma
 for board in range(5):
     print("[Board{}]".format(board))
     tone_gap, limma_gap = BOARD_GAP
     initial = 8 + board * note_gap
     for key, (tone, limma) in enumerate(coords_of_key):
-        note = initial + tone * tone_steps + limma * limma_steps
+        note = initial + tone * args.tone + limma * args.limma
         print("Key_{}={}".format(key, note))
         print("Chan_{}=1".format(key))
         print("Col_{}=000000".format(key))
