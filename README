@@ -12,6 +12,19 @@ covering what would be a perfect fourth in a Bosanquet mapping:
 
 ./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
     ./apply_scheme.py -t 60 --input ./tricolour.scheme --gap 19 <(
-    ./make_regular.py -t 6 -l 1 -g 19 --channels 1 1 1 5 5
+    ./make_regular.py -t 6 -l 1 -r -8 -g 19 --channels 1 1 1 5 5
     ) -o mappings/tricolour_g.ltn
 
+Similar pattern for left-hand playing:
+
+./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
+ ./apply_scheme.py -t 60 --input ./tricolour.scheme --gap 19 <(
+    ./make_regular.py -t 6 -l 5 -g 19 -r -22 --channels 1 1 1 6 6
+    ) -o mappings/tricolour_lattice.ltn
+
+Another one:
+
+./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |    
+ ./apply_scheme.py -t 60 --input ./tricolour.scheme --gap 19 <(
+    ./make_regular.py -t 6 -l -5 -g 19 -r 40 --channels 1 1 1 4 4
+    ) -o mappings/tricolour_harmonic_table.ltn

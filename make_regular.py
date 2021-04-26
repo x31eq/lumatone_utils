@@ -29,6 +29,8 @@ parser.add_argument('-g', '--gap', type=int, nargs='?',
                     help='Notes to offset from one channel to the next')
 parser.add_argument('-c', '--channels', type=int, nargs='*',
                     help='Channel to assign to each section')
+parser.add_argument('-r', '--ref', type=int, nargs='?', default=0,
+                    help='Reference note: fairly arbitrary so far')
 parser.add_argument('-o', '--output', nargs='?',
                     help='file to write the generated mapping to')
 args = parser.parse_args()
@@ -48,12 +50,11 @@ tone_gap, limma_gap = BOARD_GAP
 note_gap = tone_gap * args.tone + limma_gap * args.limma
 channel_gap = args.gap or note_gap
 channels = ((args.channels or []) + [1] * 5)[:5]
-note_offset = -8
 output = open(args.output, 'w') if args.output else sys.stdout
 for board in range(5):
     output.write("[Board{}]\n".format(board))
     tone_gap, limma_gap = BOARD_GAP
-    initial = note_offset + board * note_gap
+    initial = args.ref + board * note_gap
     for key, (tone, limma) in enumerate(coords_of_key):
         channel = channels[board]
         octave = (channel - 1) * channel_gap
