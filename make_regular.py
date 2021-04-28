@@ -63,13 +63,23 @@ for board in range(5):
     for key, (tone, limma) in enumerate(coords_of_key):
         channel = channels[board]
         octave = (channel - 1) * channel_gap
-        note = initial + tone * args.tone + limma * args.limma - octave
-        while note < 0:
-            note += channel_gap
-            channel -= 1
-        while note > 0x7f:
-            note -= channel_gap
-            channel += 1
+        base_note = initial + tone * args.tone + limma * args.limma
+        note = base_note - octave
+        if not 0 <= note < 0x80:
+            # Prefer an existing channel
+            for other_channel in channels:
+                octave = (other_channel - 1) * channel_gap
+                if 0 <= base_note - octave < 0x80:
+                    note = base_note - octave
+                    channel = other_channel
+                    break
+            else:
+                while note < 0:
+                    note += channel_gap
+                    channel -= 1
+                while note > 0x7f:
+                    note -= channel_gap
+                    channel += 1
         output.write("Key_{}={}\n".format(key, note))
         output.write("Chan_{}={}\n".format(key, channel))
         output.write("Col_{}=000000\n".format(key))
