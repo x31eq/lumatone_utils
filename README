@@ -3,6 +3,11 @@ Utilities for dealing with Lumatone files
 
 These are work in progress, and have some --help documentation.
 
+Keys are specified in tones and limmas.  A tone is one step
+east-northeast, the whole tone in Bosanquet mappings.
+A limma is one step southeast, the diatonic semitone in
+Bosanquet mappings.
+
 Example: making a magic mapping for 19 steps to an octave
 covering what would be a perfect fourth in a Bosanquet mapping:
 
@@ -15,34 +20,26 @@ covering what would be a perfect fourth in a Bosanquet mapping:
     ./make_regular.py -t 6 -l 1 -k 8 4 -g 19 --channels 1 1 1 5 5
     ) -o mappings/pengcheng_right.ltn
 
-Similar pattern for left-hand playing:
+The scripts are:
 
-# overflows
-./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
- ./apply_scheme.py -t 60 --gap 19 <(
-    ./make_regular.py -t 6 -l 5 -g 19 -k 1 5 -r 41 --channels 1 1 1 6 6
-    ) -o mappings/pengcheng_left.ltn
+extract_scheme.py takes the colors from an existing mapping
+and stores them in a file.  Use -p for the period of the scale
+the colours match.
 
-Another one:
+apply_scheme.py takes the file that comes out of extract_scheme.py,
+and applies it to another mapping file.
 
-./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
- ./apply_scheme.py -t 60 --gap 19 <(
-    ./make_regular.py -t 6 -l -5 -g 19 -k 3 -2 --channels 1 1 1 4 4
-    ) -o mappings/pengcheng_harmonic_table.ltn
+make_regular.py makes a mapping file with all black keys.
 
-Same things with 22 note octaves:
+Use the "-k" option to specify the key for your reference pitch
+(default 60 for middle C).  This is measured in tones and limmas
+relative to the note on section one that's usually called C
+in Bosanquet mappings.
 
-./apply_scheme.py -t 60 --input ./haizhou_tricolour.scheme --gap 22 <(
-    ./make_regular.py -t 7 -l 1 -k 7 1 -g 22 --channels 1 1 1 5 5
-    ) -o mappings/haizhou_right.ltn
+To make a useful new mapping file, you can use both
+make_regular.py and apply_scheme.py as in the example above.
 
-./apply_scheme.py -t 60 --input ./haizhou_tricolour.scheme --gap 22 <(
-    ./make_regular.py -t 7 -l 6 -g 22 -k 2 5 --channels 1 1 4 7 7
-    ) -o mappings/haizhou_left.ltn
+transpose.py changes the reference note for an existing mapping file.
 
-# overflows
-./apply_scheme.py -t 60 --input ./haizhou_tricolour.scheme --gap 22 <(
-    ./make_regular.py -t 7 -l -6 -k 4 1 -g 22 --channels 1 1 1 4 4
-    ) -o mappings/haizhou_harmonic_table.ltn
-
-Note: the scheme extracted from the xinpu files is unbalanced
+dim.py makes new mapping files based on old ones, but with all colours
+at half their original brightness.
