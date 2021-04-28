@@ -12,33 +12,34 @@ covering what would be a perfect fourth in a Bosanquet mapping:
 
 ./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
     ./apply_scheme.py -t 60 --gap 19 <(
-    ./make_regular.py -t 6 -l 1 -r -8 -g 19 --channels 1 1 1 5 5
+    ./make_regular.py -t 6 -l 1 -k 8 4 -g 19 --channels 1 1 1 5 5
     ) -o mappings/pengcheng_right.ltn
 
 Similar pattern for left-hand playing:
 
 ./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
  ./apply_scheme.py -t 60 --gap 19 <(
-    ./make_regular.py -t 6 -l 5 -g 19 -r -22 --channels 1 1 1 6 6
+    ./make_regular.py -t 6 -l 5 -g 19 -k 1 5 -r 41 --channels 1 1 1 6 6
     ) -o mappings/pengcheng_left.ltn
 
 Another one:
 
-./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |    
+./extract_scheme.py -t 60 -p 19 mappings/tricolour_c.ltn |
  ./apply_scheme.py -t 60 --gap 19 <(
-    ./make_regular.py -t 6 -l -5 -g 19 -r 40 --channels 1 1 1 4 4
+    ./make_regular.py -t 6 -l -5 -g 19 -k 3 -2 --channels 1 1 1 4 4
     ) -o mappings/pengcheng_harmonic_table.ltn
 
 Same things with 22 note octaves:
 
 ./apply_scheme.py -t 60 --input ./haizhou_tricolour.scheme --gap 22 <(
-    ./make_regular.py -t 7 -l 1 -r -8 -g 22 --channels 1 1 1 5 5
+    ./make_regular.py -t 7 -l 1 -k 7 1 -g 22 --channels 1 1 1 5 5
     ) -o mappings/haizhou_right.ltn
 
 ./apply_scheme.py -t 60 --input ./haizhou_tricolour.scheme --gap 22 <(
-    ./make_regular.py -t 7 -l 6 -g 22 -r -22 --channels 1 1 3 6 6
+    ./make_regular.py -t 7 -l 6 -g 22 -k 2 5 --channels 1 1 3 6 6
     ) -o mappings/haizhou_left.ltn
 
+# overflows
 ./apply_scheme.py -t 60 --input ./haizhou_tricolour.scheme --gap 22 <(
     ./make_regular.py -t 7 -l -6 -g 22 -r 40 --channels 1 1 1 4 4
     ) -o mappings/haizhou_harmonic_table.ltn

@@ -29,8 +29,10 @@ parser.add_argument('-g', '--gap', type=int, nargs='?',
                     help='Notes to offset from one channel to the next')
 parser.add_argument('-c', '--channels', type=int, nargs='*',
                     help='Channel to assign to each section')
-parser.add_argument('-r', '--ref', type=int, nargs='?', default=0,
-                    help='Reference note: fairly arbitrary so far')
+parser.add_argument('-k', '--ref-key', type=int, nargs=2, default=(10, 4),
+                    help='Reference key: tones and limmas from the middle note on the left')
+parser.add_argument('-r', '--ref', type=int, nargs='?', default=60,
+                    help='MIDI note number of the reference key')
 parser.add_argument('-o', '--output', nargs='?',
                     help='file to write the generated mapping to')
 args = parser.parse_args()
@@ -51,10 +53,13 @@ note_gap = tone_gap * args.tone + limma_gap * args.limma
 channel_gap = args.gap or note_gap
 channels = ((args.channels or []) + [1] * 5)[:5]
 output = open(args.output, 'w') if args.output else sys.stdout
+ref_tone, ref_limma = args.ref_key
+first_tone, first_limma, _length = ROWS[4]
+ref_note = (ref_tone + first_tone) * args.tone + (ref_limma + first_limma) * args.limma
 for board in range(5):
     output.write("[Board{}]\n".format(board))
     tone_gap, limma_gap = BOARD_GAP
-    initial = args.ref + board * note_gap
+    initial = args.ref - ref_note + board * note_gap
     for key, (tone, limma) in enumerate(coords_of_key):
         channel = channels[board]
         octave = (channel - 1) * channel_gap
