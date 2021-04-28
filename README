@@ -1,8 +1,6 @@
 Utilities for dealing with Lumatone files
 -----------------------------------------
 
-These are work in progress, and have some --help documentation.
-
 Keys are specified in tones and limmas.  A tone is one step
 east-northeast, the whole tone in Bosanquet mappings.
 A limma is one step southeast, the diatonic semitone in
@@ -24,7 +22,7 @@ The scripts are:
 
 extract_scheme.py takes the colors from an existing mapping
 and stores them in a file.  Use -p for the period of the scale
-the colours match.
+the colors match.
 
 apply_scheme.py takes the file that comes out of extract_scheme.py,
 and applies it to another mapping file.
@@ -41,5 +39,5 @@ make_regular.py and apply_scheme.py as in the example above.
 
 transpose.py changes the reference note for an existing mapping file.
 
-dim.py makes new mapping files based on old ones, but with all colours
+dim.py makes new mapping files based on old ones, but with all colors
 at half their original brightness.
